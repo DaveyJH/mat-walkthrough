@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block content %}
+
+  <h3 class="deep-orange-text darken-4 center-align">Edit Task</h3>
+
+  <div class="row card-panel cyan lighten-3">
+    <form class="col s12" method="POST" action="{{ url_for('edit_task', task_id=task.id) }}">
+      <div class="row">
+        <div class="input-field col s12">
+          <i class="fas fa-folder-open prefix deep-orange-text"></i>
+          <input name="task_name" id="task_name" type="text" value="{{ task.task_name }}" class="validate black-text" minlength="3" maxlength="25">
+          <label for="task_name" class="black-text">Task Name</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <i class="fas fa-pencil-alt prefix deep-orange-text"></i>
+          <textarea name="task_description" id="task_description" type="text" class="materialize-textarea validate black-text" minlength="5" maxlength="200">
+          {{- task.task_description -}}
+          </textarea>
+          <label for="task_description" class="black-text">Task Description</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <i class="fas fa-calendar-alt prefix deep-orange-text"></i>
+          <input name="due_date" id="due_date" type="text" value="{{ task.due_date.strftime('%d %B, %Y') }}" class="datepicker validate black-text">
+          <label for="due_date" class="black-text">Due Date</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <div class="switch">
+            <i class="fas fa-exclamation-circle prefix deep-orange-text"></i>
+            <label for="is_urgent" class="black-text">
+            {% if task.is_urgent %}
+              <input name="is_urgent" id="is_urgent" type="checkbox" checked>
+            {% else %}
+              <input name="is_urgent" id="is_urgent" type="checkbox">
+            {% endif %}
+              <span class="lever"></span>
+              Is Urgent
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <i class="fas fa-folder-open prefix deep-orange-text"></i>
+          <select name="category_id" id="category_id" type="text" class="validate black-text" required="required">
+            <option value="" disabled="disabled" selected="selected">Choose Category</option>
+            {% for category in categories %}
+              {% if category == task.category %}
+                <option value="{{ category.id }}" selected>{{ category.category_name }}</option>
+              {% else %}
+                <option value="{{ category.id }}">{{ category.category_name }}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+          <label for="category_id" class="black-text">Select Category</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12 center">
+          <button type="submit" class="btn-large cyan darken-2">
+            Edit Task<i class="fas fa-edit right"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+{% endblock content %}

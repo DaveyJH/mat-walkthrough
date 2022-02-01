@@ -33,6 +33,7 @@
               <p>{{ task.task_description }}</p>
             </div>
             <div class="card-action">
+              <a href="{{ url_for('edit_task', task_id=task.id) }}" class="white-text btn cyan darken-2">Edit</a>
               <a href="#modal-{{ task.id }}" class="white-text btn cyan darken-4 modal-trigger">Complete</a>
             </div>
           </div>

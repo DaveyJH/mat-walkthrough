@@ -1,4 +1,3 @@
-from unicodedata import category
 from flask import redirect, render_template, request, url_for
 from taskmanager import app, db
 from taskmanager.models import Category, Task
@@ -67,3 +66,14 @@ def add_task():
         db.session.commit()
         return redirect(url_for("home"))
     return render_template("add_task.html", categories=categories)
+
+
+@app.route("/edit_task/<int:task_id>", methods=["GET", "POST"])
+def edit_task(task_id):
+    categories = list(Category.query.order_by(Category.category_name).all())
+    task = Task.query.get_or_404(task_id)
+    if request.method == "POST":
+        task.task_name = request.form.get("task_name")
+        db.session.commit()
+        return redirect(url_for("home"))
+    return render_template("edit_task.html", task=task, categories=categories)
